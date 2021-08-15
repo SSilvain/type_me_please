@@ -2,13 +2,16 @@
 let result = "Wait..."
 let speed = 0
 
-const ResultOut = ({ setErrorTyping, typingStart, setTypingStart, typeMe, typingText, setStartCount, setTypeMe }) => {
+const Word = ({ setErrorTyping, typingStart, setTypingStart, typeMe, typingText, setStartCount, setTypeMe }) => {
 
 	const typingTime = (typingStart, typingEnd) => {
 
 
 		return (typingEnd - typingStart) / 1000
 	}
+
+
+
 	if (typeMe === typingText) {
 		result = typingTime(typingStart, Date.now())
 		speed = `${Math.ceil(typingText.length / result * 60)} word/min`
@@ -32,4 +35,4 @@ const ResultOut = ({ setErrorTyping, typingStart, setTypingStart, typeMe, typing
 	)
 }
 
-export default ResultOut
+export default Word
