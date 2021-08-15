@@ -1,37 +1,35 @@
-import { useState } from "react"
+
 let result = "Wait..."
 let speed = 0
-const ResultOut = ({ typingStart, setTypingStart, typeMe, typingText, setStartCount, setTypeMe }) => {
 
-	// const [result, setResult] = useState(0)
+const ResultOut = ({ setErrorTyping, typingStart, setTypingStart, typeMe, typingText, setStartCount, setTypeMe }) => {
+
 	const typingTime = (typingStart, typingEnd) => {
-		// console.log("typingEnd " + typingEnd)
-		// console.log("typingStart " + typingStart)
 
 
 		return (typingEnd - typingStart) / 1000
 	}
 	if (typeMe === typingText) {
 		result = typingTime(typingStart, Date.now())
-		speed = typingText.length / result * 60
+		speed = `${Math.ceil(typingText.length / result * 60)} word/min`
 		setTypingStart(0)
 		setStartCount(true)
 		setTypeMe("")
 	} else {
 		if (typingText.startsWith(typeMe)) {
-
-			console.log("правильно")
+			setErrorTyping(false)
 		} else {
-			console.log("wrong")
+			setErrorTyping(true)
 		}
 	}
 
 
 	return (
 		<>
-			<h1>{result}</h1>
+			<h1>{`${typingText.length} symbols / ${result} sec`}</h1>
 			<h2>{speed}</h2>
-		</>)
+		</>
+	)
 }
 
 export default ResultOut
