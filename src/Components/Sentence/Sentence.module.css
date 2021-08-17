@@ -2,3 +2,7 @@
 	display: inline-flex;
 	width: 100px;
 }
+
+.active{
+	color: blue;
+}
