@@ -1,35 +1,40 @@
 import { useEffect, useState } from "react"
-import s from  "./Sentence.module.css"
+import s from "./Sentence.module.css"
 
 
 // const typingText = ["Read", "the", "latest,", "technology", "news", "and", "interesting."]
-const typingText = "Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem"
+const typingText = "Lorem ipsum dolor sit amet"
 let typingTextTmp = typingText
-let allTextSymbols = typingText.split("")
+// let allTextSymbols = typingText.split("")
 // console.log(allTextSymbols)
 let allTextSymbolsScores = []
-let currentSymbols = []
+// let currentSymbols = []
 let tmpWord = ""
 
 let mapResult = new Map()
 
 
 const Sentence = () => {
-	const [typeMe, setTypeMe] = useState("")
-	const [typeMeFullText, setTypeMeFullText] = useState("")
-	const [currentSymbol, setCurrentSymbol] = useState("")
-	const [startCount, setStartCount] = useState(true)
+	let [typeMe, setTypeMe] = useState("")
+	let [typingFullText, setTypingFullText] = useState("")
+	let [currentSymbol, setCurrentSymbol] = useState("")
+	let [startCount, setStartCount] = useState(true)
 	let [typingStart, setTypingStart] = useState(0)
 	let [errorTyping, setErrorTyping] = useState(false)
 	let [indexOfWord, setIndexOfWord] = useState(0)
+	let [indexOfSymbol, setIndexOfSymbol] = useState(0)
 	let [resultArray, setResultArray] = useState([])
+	let [finish, setFinish] = useState(false)
 
 
 
 	const result = () => {
 
 		if (allTextSymbolsScores.length !== 0) {
-			allTextSymbolsScores.reduce((prev, current, index, arr) => {
+			allTextSymbolsScores.reduce((prev, current) => {
+				if (current[0] === " ") {
+					current[0] = "⇒"
+				}
 				let pair = prev[0] + current[0]
 				let pairTime = current[1] - prev[1]
 				if (prev) {
@@ -60,24 +65,29 @@ const Sentence = () => {
 			})
 		}
 	}
-	
+
+
+	// finish
+	useEffect(() => { }, [finish])
+
+
+	// highlightCurrentWord 
 	useEffect(() => {
-		// const highlightCurrentWord 
+
 		let typingTextWords = typingText.split(" ")
-		
+
 		let hightLightsWord = typingTextWords.map((word, index) => {
+
 			if (index === indexOfWord) {
-				return <span className={s.active}>{word}</span>
+				return <span key={index}> <span className={errorTyping ? s.error : s.active}>{word}</span> </span>
 			} else {
-				return <span >{word}</span>
+				return <span key={index} ><span>{word}</span> </span>
 			}
-			
+
 		})
-		setTypeMeFullText(hightLightsWord)
+		setTypingFullText(hightLightsWord)
 
-		
-
-	}, [typeMe])
+	}, [typeMe, errorTyping])
 
 
 
@@ -91,11 +101,22 @@ const Sentence = () => {
 			allTextSymbolsScores.push([currentSymbol, Date.now()])
 			console.log(allTextSymbolsScores)
 			result()
+
+			checkFinish()
+		}
+	}
+	
+	const checkFinish = () => {
+		if (typingText.length - 1 === indexOfSymbol) {
+			setFinish(true)
+		} else {
+			setIndexOfSymbol(indexOfSymbol + 1)
+			console.log(indexOfSymbol)
 		}
 	}
 
+	// check entered text
 	useEffect(() => {
-		//check entered text
 		if (typingTextTmp.startsWith(typeMe) && typeMe !== "") {
 			baseFunc()
 			if (currentSymbol === " ") {
@@ -105,13 +126,15 @@ const Sentence = () => {
 				setIndexOfWord(indexOfWord + 1)
 			}
 			setErrorTyping(false)
+		} else if (typeMe === "") {
+			setErrorTyping(false)
 		} else {
 			setErrorTyping(true)
 		}
 	}, [typeMe])
 
 
-
+	// starting type
 	const startType = (e) => {
 		if (startCount) {
 			setTypingStart(Date.now())
@@ -128,13 +151,13 @@ const Sentence = () => {
 
 
 
-	// let allWords = typingText.map((word) => <Word typingText={word} />)
 	return (
-		<>
-			<h1>{typeMeFullText}</h1>
-			<input style={errorTyping ? { color: "red" } : { color: "green" }} type="text" onChange={startType} placeholder="type_me_please" value={typeMe} />
-			<div>{resultArray.map((res, index) => <div key={index}><span className="result">{res[0]}</span> <span className="result">{res[1]}</span></div>)}</div>
-		</>
+		<div className={s.sentense}>
+			<h1 className={s.typingText}>{typingFullText}</h1>
+			<div className={s.inputWrapper}><input disabled={finish} className={s.inputTyping} style={errorTyping ? { color: "red" } : { color: "blue" }} type="text" onChange={startType} placeholder="" value={typeMe} /></div>
+
+			<div>{resultArray.map((res, index) => <div className={s.resultBlock} key={index}><span className={s.result}>{res[0]}</span> <span className="result">{`${res[1] / 1000}`} <i className={s.resultSec}>s</i></span></div>)}</div>
+		</div>
 
 
 	)

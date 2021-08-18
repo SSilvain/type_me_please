@@ -1,8 +1,45 @@
-.result {
-	display: inline-flex;
-	width: 100px;
-}
 
+.sentense{
+	width: 800px;
+	margin: 0 auto;
+}
+.typingText{
+	font-size: 24px;
+}
 .active{
 	color: blue;
+	background-color: rgba(255,155,255, .2);
+}
+
+.error{
+	color: red;
+	background-color: rgba(255, 55, 55, .3);
+}
+
+.inputWrapper{
+	display: flex;
+	justify-content: center;
+}
+
+.inputTyping{
+font-size: 24px;
+font-weight: bold;	
+border: none;
+border-bottom: 2px solid #ccc;
+outline: none;
+}
+.resultBlock{
+	display: flex;
+	width: 160px;
+	border-bottom: 1px solid #ccc;
+	padding: 5px 10px;
+}
+.result {
+	display: inline-flex;
+	width: 80px;
+	letter-spacing: 5px;
+}
+.resultSec{
+	font-size: 12px;
+	font-weight: bold;
 }
