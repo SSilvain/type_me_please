@@ -63,12 +63,17 @@ outline: none;
 // }
 
 @keyframes example {
-  from {top: 0;}
-  to {top: -100px;}
+  from {top: 0;
+opacity: 1;}
+  to {top: -70px;
+opacity: 0;}
 }
 
 /* The element to apply the animation to */
 .animate {
   animation-name: example;
-  animation-duration: 20s;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
 }

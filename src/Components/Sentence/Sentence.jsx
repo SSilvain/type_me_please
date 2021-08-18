@@ -71,46 +71,60 @@ const Sentence = () => {
 
 	// finish
 	useEffect(() => {
-		
+
 		setTypeMe("")
 	}, [finish])
-	
-	
+
+
 	// animate
 	useEffect(() => {
-		
+
 		console.log(animateSymbol)
-		
-	 }, [typeMe])
+
+	}, [typeMe])
 
 	// typingText and highlightCurrentWord 
 	useEffect(() => {
 
 		let typingTextWords = typingText.split(" ")
-		
+
 		let indexEachSymbol = 0
-		
+
 		let hightLightsWord = typingTextWords.map((word, index) => {
 
-			
+
 			if (index === indexOfWord) {
-				return <span key={index}> <span className={errorTyping ? s.error : s.active}>{
-					word.split("").map((symbol) => {
-						indexEachSymbol++
-						return (<div className={s.symbol}>{symbol}
-							<div className={true && s.animate}>
-								{(currentSymbol)}
-							</div>
-						</div>)
-					})
-				}</span>{indexEachSymbol++}</span>
+				return (
+					<span key={index}> <span className={errorTyping ? s.error : s.active}>
+						{word.split("").map((symbol) => {
+							return (
+								<div id={indexEachSymbol++} className={s.symbol}>
+									{symbol}
+									{(indexEachSymbol - 1) === indexOfSymbol &&
+										<div className={s.animate}>
+											{(currentSymbol)}
+										</div>
+									}
+									
+								</div>)
+						})
+						}
+					</span>
+						<div id={indexEachSymbol++} className={s.symbol}> </div>
+					</span>)
 			} else {
-				return <span key={index} ><span>{
-					word.split("").map((symbol) => {
-						indexEachSymbol++
-						return (<div id={indexEachSymbol} className={s.symbol}>{symbol}</div>)
-					})
-				}</span>{indexEachSymbol++}</span>
+				return (
+					<span key={index} >
+						<span>{
+							word.split("").map((symbol) => {
+								return (<div id={indexEachSymbol++} className={s.symbol}>
+									{symbol}
+								</div>)
+							})
+						}
+						</span>
+						<div id={indexEachSymbol++} className={s.symbol}> </div>
+					</span>)
 			}
 
 		})
@@ -134,7 +148,7 @@ const Sentence = () => {
 			checkFinish()
 		}
 	}
-	
+
 	const checkFinish = () => {
 		if (typingText.length - 1 === indexOfSymbol) {
 			setFinish(true)
