@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
-import s from "./Sentence.module.css"
+import StopWatch from "../Word/StopWatch/StopWatch"
+import s from "./Sentence.module.scss"
 
 
 // const typingText = ["Read", "the", "latest,", "technology", "news", "and", "interesting."]
@@ -25,6 +26,7 @@ const Sentence = () => {
 	let [indexOfSymbol, setIndexOfSymbol] = useState(0)
 	let [resultArray, setResultArray] = useState([])
 	let [finish, setFinish] = useState(false)
+	let [animateSymbol, setAnimateSymbol] = useState("")
 
 
 
@@ -68,20 +70,47 @@ const Sentence = () => {
 
 
 	// finish
-	useEffect(() => { }, [finish])
+	useEffect(() => {
+		
+		setTypeMe("")
+	}, [finish])
+	
+	
+	// animate
+	useEffect(() => {
+		
+		console.log(animateSymbol)
+		
+	 }, [typeMe])
 
-
-	// highlightCurrentWord 
+	// typingText and highlightCurrentWord 
 	useEffect(() => {
 
 		let typingTextWords = typingText.split(" ")
-
+		
+		let indexEachSymbol = 0
+		
 		let hightLightsWord = typingTextWords.map((word, index) => {
 
+			
 			if (index === indexOfWord) {
-				return <span key={index}> <span className={errorTyping ? s.error : s.active}>{word}</span> </span>
+				return <span key={index}> <span className={errorTyping ? s.error : s.active}>{
+					word.split("").map((symbol) => {
+						indexEachSymbol++
+						return (<div className={s.symbol}>{symbol}
+							<div className={true && s.animate}>
+								{(currentSymbol)}
+							</div>
+						</div>)
+					})
+				}</span>{indexEachSymbol++}</span>
 			} else {
-				return <span key={index} ><span>{word}</span> </span>
+				return <span key={index} ><span>{
+					word.split("").map((symbol) => {
+						indexEachSymbol++
+						return (<div id={indexEachSymbol} className={s.symbol}>{symbol}</div>)
+					})
+				}</span>{indexEachSymbol++}</span>
 			}
 
 		})
@@ -99,7 +128,7 @@ const Sentence = () => {
 			tmpWord = typeMe
 
 			allTextSymbolsScores.push([currentSymbol, Date.now()])
-			console.log(allTextSymbolsScores)
+			// console.log(allTextSymbolsScores)
 			result()
 
 			checkFinish()
@@ -111,7 +140,7 @@ const Sentence = () => {
 			setFinish(true)
 		} else {
 			setIndexOfSymbol(indexOfSymbol + 1)
-			console.log(indexOfSymbol)
+			// console.log(indexOfSymbol)
 		}
 	}
 
@@ -153,6 +182,7 @@ const Sentence = () => {
 
 	return (
 		<div className={s.sentense}>
+			<StopWatch />
 			<h1 className={s.typingText}>{typingFullText}</h1>
 			<div className={s.inputWrapper}><input disabled={finish} className={s.inputTyping} style={errorTyping ? { color: "red" } : { color: "blue" }} type="text" onChange={startType} placeholder="" value={typeMe} /></div>
 
