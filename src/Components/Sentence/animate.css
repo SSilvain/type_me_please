@@ -1,24 +1,24 @@
-.remove-btn {
-	margin-right: 0.5rem;
+@keyframes example {
+	from {
+		top: 100px;
+		left: 200px;
+		opacity: 1;
+	}
+
+	to {
+		top: 30px;
+		left: 230px;
+		opacity: 0;
+	}
 }
 
-.item-enter {
-	opacity: 0;
-}
-
-.item-enter-active {
-	opacity: 1;
-	transform: translateY(0%);
-	transition: all 500ms ease-in;
-}
-
-.item-exit {
-	transform: translateY(100%);
-	opacity: 1;
-}
-
-.item-exit-active {
-	transform: translateY(100%);
-	opacity: 0;
-	transition: all 500ms ease-in;
+/* The element to apply the animation to */
+.animate {
+	display: inline;
+	position: absolute;
+	animation-name: example;
+	animation-duration: 2s;
+	animation-iteration-count: 1;
+	animation-direction: normal;
+	animation-fill-mode: forwards;
 }

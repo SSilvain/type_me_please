@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
 import StopWatch from "../StopWatch/StopWatch"
 import s from "./Sentence.module.scss"
+import "./animate.css"
 
 const InItem = ({ item, index }) => {
 	const [inItemVisible, setInItemVisible] = useState(true)
@@ -83,7 +84,17 @@ const Sentence = () => {
 	}, 1000)
 
 	useEffect(() => {
-		setArr([...arr, currentSymbol])
+		// setArr([...arr, currentSymbol])
+		let elementDiv = document.createElement("div")
+		elementDiv.setAttribute("class", "animate")
+		const newContent = document.createTextNode(currentSymbol);
+
+		// add the text node to the newly created div
+		elementDiv.appendChild(newContent);
+
+		// add the newly created element and its content into the DOM
+		const currentDiv = document.getElementById("root");
+		document.body.insertBefore(elementDiv, currentDiv);
 	}, [typeMe])
 
 
