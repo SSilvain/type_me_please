@@ -1,10 +1,11 @@
 import { useState } from "react"
 import s from "./StopWatch.module.scss"
 
-const StopWatch = () => {
+const StopWatch = ({ typingStart, finish}) => {
 	const [time, setTime] = useState(0)
-	
-	setTimeout(() => { setTime(time + 1) }, 1000)
+	if (typingStart && !finish) {
+		setTimeout(() => { setTime(time + 1) }, 1000)
+	}
 	
 	return (
 		<>

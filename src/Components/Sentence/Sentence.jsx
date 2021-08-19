@@ -1,18 +1,67 @@
+import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from "react"
-import StopWatch from "../Word/StopWatch/StopWatch"
+import StopWatch from "../StopWatch/StopWatch"
 import s from "./Sentence.module.scss"
+
+const InItem = ({ item, index }) => {
+	const [inItemVisible, setInItemVisible] = useState(true)
+	setTimeout(() => { setInItemVisible(false) }, 1000)
+	return (
+		<div style={{position: "relative", display: "inline-block", width: "15px", height: "15px"}}>
+			<AnimatePresence>
+			{inItemVisible && (
+				<motion.div
+					// children={item}
+					key={index}
+					// initial={{ opacity: 0 }}
+					className={s.animate}
+
+					animate={{ opacity: 1 }}
+					exit={{ opacity: 0 }}
+					// transition={{ duration: 0.3 }}
+				>
+					{item}
+					</motion.div>)}
+			</AnimatePresence>
+		</div>
+	)
+}
+
+const MyItem = ({ arr, isVisible }) => {
+
+	return (
+		<div>
+				{arr.map((item, index) => (
+					<InItem item={item} index={index} />
+				))}
+			{/* {arr.map((item, index) => {
+				return (
+					<motion.div
+						key={index}
+						className={s.animate}
+						animate={{ x: 100 }}
+						transition={{ type: 'spring' }}
+						children={item}
+					/>
+				)
+			}
+			)} */}
+		</div>
+	)
+}
+
 
 
 // const typingText = ["Read", "the", "latest,", "technology", "news", "and", "interesting."]
-const typingText = "Lorem ipsum dolor sit amet"
+const typingText = "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed, error? Voluptate, deleniti. Porro nemo aliquam inventore ipsum vitae nobis voluptatibus labore quod dolore id possimus ex dolores odio, deserunt est."
 let typingTextTmp = typingText
 // let allTextSymbols = typingText.split("")
 // console.log(allTextSymbols)
 let allTextSymbolsScores = []
 // let currentSymbols = []
 let tmpWord = ""
-
 let mapResult = new Map()
+let stack = ""
 
 
 const Sentence = () => {
@@ -28,7 +77,18 @@ const Sentence = () => {
 	let [finish, setFinish] = useState(false)
 	let [animateSymbol, setAnimateSymbol] = useState("")
 
+	let [arr, setArr] = useState(["a"])
+	setTimeout(() => {
 
+	}, 1000)
+
+	useEffect(() => {
+		setArr([...arr, currentSymbol])
+	}, [typeMe])
+
+
+	let [isVisible, setIsVisible] = useState(true)
+	setTimeout(() => { setIsVisible(false) }, 1000)
 
 	const result = () => {
 
@@ -79,7 +139,7 @@ const Sentence = () => {
 	// animate
 	useEffect(() => {
 
-		console.log(animateSymbol)
+		// "#symbol-5"
 
 	}, [typeMe])
 
@@ -93,39 +153,51 @@ const Sentence = () => {
 		let hightLightsWord = typingTextWords.map((word, index) => {
 
 
-			if (index === indexOfWord) {
-				return (
-					<span key={index}> <span className={errorTyping ? s.error : s.active}>
-						{word.split("").map((symbol) => {
-							return (
-								<div id={indexEachSymbol++} className={s.symbol}>
-									{symbol}
-									{(indexEachSymbol - 1) === indexOfSymbol &&
-										<div className={s.animate}>
-											{(currentSymbol)}
-										</div>
-									}
-									
-								</div>)
-						})
-						}
-					</span>
-						<div id={indexEachSymbol++} className={s.symbol}> </div>
-					</span>)
-			} else {
-				return (
-					<span key={index} >
-						<span>{
-							word.split("").map((symbol) => {
-								return (<div id={indexEachSymbol++} className={s.symbol}>
-									{symbol}
-								</div>)
-							})
-						}
-						</span>
-						<div id={indexEachSymbol++} className={s.symbol}> </div>
-					</span>)
-			}
+			// if (index === indexOfWord) {
+			return (
+				<span key={index}> <span className={errorTyping ? s.error : s.active}>
+					{word.split("").map((symbol) => {
+						return (
+							<div id={"id" + (indexEachSymbol++)} className={s.symbol}>
+								{symbol}
+
+
+								{/* animation symbols */}
+
+								{/* {(indexEachSymbol - 1) < indexOfSymbol &&
+									<div className={s.animate}>
+										{symbol}
+									</div>}
+								{(indexEachSymbol - 1) === indexOfSymbol &&
+									<div className={s.animate}>
+										{(currentSymbol)}
+									</div>
+								} */}
+
+								{/* animation symbols */}
+
+
+
+							</div>)
+					})
+					}
+				</span>
+					<div id={"id" + (indexEachSymbol++)} className={s.symbol}> </div>
+				</span>)
+			// } else {
+			// 	return (
+			// 		<span key={index} >
+			// 			<span>{
+			// 				word.split("").map((symbol) => {
+			// 					return (<div id={indexEachSymbol++} className={s.symbol}>
+			// 						{symbol}
+			// 					</div>)
+			// 				})
+			// 			}
+			// 			</span>
+			// 			<div id={indexEachSymbol++} className={s.symbol}> </div>
+			// 		</span>)
+			// }
 
 		})
 		setTypingFullText(hightLightsWord)
@@ -186,6 +258,16 @@ const Sentence = () => {
 		setTypeMe(e.target.value)
 		setCurrentSymbol(e.nativeEvent.data)
 
+		stack = stack + e.nativeEvent.data
+
+
+		if (typingTextTmp.startsWith(stack)) {
+			console.count(stack, "yes")
+		} else {
+			console.count(stack, "no")
+		}
+
+
 	}
 
 
@@ -196,7 +278,10 @@ const Sentence = () => {
 
 	return (
 		<div className={s.sentense}>
-			<StopWatch />
+
+			<MyItem isVisible={isVisible} arr={arr} />
+
+			<StopWatch typingStart={typingStart} finish={finish} />
 			<h1 className={s.typingText}>{typingFullText}</h1>
 			<div className={s.inputWrapper}><input disabled={finish} className={s.inputTyping} style={errorTyping ? { color: "red" } : { color: "blue" }} type="text" onChange={startType} placeholder="" value={typeMe} /></div>
 
@@ -208,3 +293,5 @@ const Sentence = () => {
 }
 
 export default Sentence
+
+

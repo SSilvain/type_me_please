@@ -1,61 +1,67 @@
-
-.sentense{
-	width: 800px;
-	margin: 0 auto;
+.sentense {
+    width: 800px;
+    margin: 0 auto;
 }
-.typingText{
-	font-size: 24px;
+.typingText {
+    font-size: 24px;
+    display: flex;
+    width: 100%;
+    justify-content: start;
+    flex-wrap: wrap;
 }
-.active{
-	color: blue;
-	background-color: rgba(255,155,255, .2);
-}
-
-.error{
-	color: red;
-	background-color: rgba(255, 55, 55, .3);
-}
-
-.inputWrapper{
-	display: flex;
-	justify-content: center;
+.active {
+    color: blue;
+    margin-right: 5px;
+    background-color: rgba(255, 155, 255, 0.2);
 }
 
-.inputTyping{
-font-size: 24px;
-font-weight: bold;	
-border: none;
-border-bottom: 2px solid #ccc;
-outline: none;
+.error {
+    color: red;
+
+    margin-right: 5px;
+    background-color: rgba(255, 55, 55, 0.3);
 }
-.resultBlock{
-	display: flex;
-	width: 160px;
-	border-bottom: 1px solid #ccc;
-	padding: 5px 10px;
+
+.inputWrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.inputTyping {
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    outline: none;
+}
+.resultBlock {
+    display: flex;
+    width: 160px;
+    border-bottom: 1px solid #ccc;
+    padding: 5px 10px;
 }
 .result {
-	display: inline-flex;
-	width: 80px;
-	letter-spacing: 5px;
+    display: inline-flex;
+    width: 80px;
+    letter-spacing: 5px;
 }
-.resultSec{
-	font-size: 12px;
-	font-weight: bold;
+.resultSec {
+    font-size: 12px;
+    font-weight: bold;
 }
 
-.symbol{
-	position: relative;
-	display: inline;
-	div{
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		// font-size: 15px;
-		display: inline;
-	}
+.symbol {
+    position: relative;
+    display: inline;
+    div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        // font-size: 15px;
+        display: inline;
+    }
 }
 
 // .animate{
@@ -63,17 +69,31 @@ outline: none;
 // }
 
 @keyframes example {
-  from {top: 0;
-opacity: 1;}
-  to {top: -70px;
-opacity: 0;}
+    from {
+        top: 0;
+        left : 0;
+        opacity: 1;
+    }
+    to {
+        top: 70px;
+        left: 70px;
+        opacity: 0;
+    }
 }
 
 /* The element to apply the animation to */
 .animate {
-  animation-name: example;
-  animation-duration: 2s;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-  animation-fill-mode: forwards;
+    display: inline;
+    position: absolute;
+    // animation-name: example;
+    // animation-duration: 2s;
+    // animation-iteration-count: 1;
+    // animation-direction: normal;
+    // animation-fill-mode: forwards;
 }
+
+
+
+
+
+
