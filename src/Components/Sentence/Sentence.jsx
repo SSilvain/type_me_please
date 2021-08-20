@@ -87,7 +87,7 @@ const Sentence = () => {
 	}, 1000)
 
 
-
+// vanilla js insert element for animate
 	useLayoutEffect(() => {
 		if (!startCount && currentSymbol !== null) {
 			let elementDiv = document.createElement("div")
@@ -163,12 +163,7 @@ const Sentence = () => {
 	}, [finish])
 
 
-	// animate
-	useEffect(() => {
 
-		// "#symbol-5"
-
-	}, [typeMe])
 
 	// typingText and highlightCurrentWord 
 	useEffect(() => {
@@ -276,7 +271,15 @@ const Sentence = () => {
 
 			<div>Scores: {finishTime && (Math.ceil((typingText.length / ((finishTime - typingStart) / 1000)) * 60))}</div>
 			<StopWatch typingStart={typingStart} finish={finish} />
-			<h1 className={s.typingText}>{typingFullText}</h1>
+			<h1 className={s.typingText}>
+				
+				
+				
+				{typingFullText}
+				
+				
+				
+			</h1>
 			<div className={s.inputWrapper}><input disabled={finish} className={s.inputTyping} style={errorTyping ? { color: "red" } : { color: "blue" }} type="text" onChange={startType} placeholder="" value={typeMe} /></div>
 
 			<div>{resultArray.map((res, index) => <div className={s.resultBlock} key={index}><span className={s.result}>{res[0]}</span> <span className="result">{`${res[1] / 1000}`} <i className={s.resultSec}>s</i></span></div>)}</div>
