@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion"
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useState } from "react"
 import StopWatch from "../StopWatch/StopWatch"
 import s from "./Sentence.module.scss"
 import "./animate.css"
@@ -8,20 +8,20 @@ const InItem = ({ item, index }) => {
 	const [inItemVisible, setInItemVisible] = useState(true)
 	setTimeout(() => { setInItemVisible(false) }, 1000)
 	return (
-		<div style={{position: "relative", display: "inline-block", width: "15px", height: "15px"}}>
+		<div style={{ position: "relative", display: "inline-block", width: "15px", height: "15px" }}>
 			<AnimatePresence>
-			{inItemVisible && (
-				<motion.div
-					// children={item}
-					key={index}
-					// initial={{ opacity: 0 }}
-					className={s.animate}
+				{inItemVisible && (
+					<motion.div
+						// children={item}
+						key={index}
+						// initial={{ opacity: 0 }}
+						className={s.animate}
 
-					animate={{ opacity: 1 }}
-					exit={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
 					// transition={{ duration: 0.3 }}
-				>
-					{item}
+					>
+						{item}
 					</motion.div>)}
 			</AnimatePresence>
 		</div>
@@ -32,9 +32,9 @@ const MyItem = ({ arr, isVisible }) => {
 
 	return (
 		<div>
-				{arr.map((item, index) => (
-					<InItem item={item} index={index} />
-				))}
+			{arr.map((item, index) => (
+				<InItem item={item} index={index} />
+			))}
 			{/* {arr.map((item, index) => {
 				return (
 					<motion.div
@@ -54,7 +54,9 @@ const MyItem = ({ arr, isVisible }) => {
 
 
 // const typingText = ["Read", "the", "latest,", "technology", "news", "and", "interesting."]
-const typingText = "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed, error? Voluptate, deleniti. Porro nemo aliquam inventore ipsum vitae nobis voluptatibus labore quod dolore id possimus ex dolores odio, deserunt est."
+
+const typingText = "The two babies were already whimpering for food, but became silent when Moon-Watcher snarled at them. One of the mothers, defending the infant she could not properly feed, gave him an angry growl in return; he lacked the energy even to cuff her for her presumption."
+
 let typingTextTmp = typingText
 // let allTextSymbols = typingText.split("")
 // console.log(allTextSymbols)
@@ -77,24 +79,29 @@ const Sentence = () => {
 	let [resultArray, setResultArray] = useState([])
 	let [finish, setFinish] = useState(false)
 	let [animateSymbol, setAnimateSymbol] = useState("")
+	let [finishTime, setfinishTime] = useState(0)
 
 	let [arr, setArr] = useState(["a"])
 	setTimeout(() => {
 
 	}, 1000)
 
-	useEffect(() => {
+
+
+	useLayoutEffect(() => {
+		if (!startCount && currentSymbol !== null) {
+			let elementDiv = document.createElement("div")
+			elementDiv.setAttribute("class", "animate")
+			const newContent = document.createTextNode(currentSymbol);
+
+			// add the text node to the newly created div
+			elementDiv.appendChild(newContent);
+
+			// add the newly created element and its content into the DOM
+			const currentDiv = document.getElementById("id" + indexOfSymbol);
+			currentDiv.append(elementDiv);
+		}
 		// setArr([...arr, currentSymbol])
-		let elementDiv = document.createElement("div")
-		elementDiv.setAttribute("class", "animate")
-		const newContent = document.createTextNode(currentSymbol);
-
-		// add the text node to the newly created div
-		elementDiv.appendChild(newContent);
-
-		// add the newly created element and its content into the DOM
-		const currentDiv = document.getElementById("root");
-		document.body.insertBefore(elementDiv, currentDiv);
 	}, [typeMe])
 
 
@@ -129,6 +136,15 @@ const Sentence = () => {
 		setResultArray([...resultArrayTmp])
 
 	}
+	// execute result
+	useEffect(() => {
+		if (finish) {
+			result()
+			setfinishTime(Date.now())
+		}
+	}, [finish])
+
+
 
 	const resultWord = () => {
 		if (allTextSymbolsScores.length !== 0) {
@@ -164,30 +180,15 @@ const Sentence = () => {
 		let hightLightsWord = typingTextWords.map((word, index) => {
 
 
-			// if (index === indexOfWord) {
 			return (
-				<span key={index}> <span className={errorTyping ? s.error : s.active}>
+				<span key={index} className={index === indexOfWord ? `${s.active} ${s.symbols}` : `${s.symbols}`}> <span >
 					{word.split("").map((symbol) => {
 						return (
-							<div id={"id" + (indexEachSymbol++)} className={s.symbol}>
+							<div
+								id={"id" + (indexEachSymbol++)}
+								className={errorTyping ? `${s.error} ${s.symbol}` : `${s.symbol}`}
+							>
 								{symbol}
-
-
-								{/* animation symbols */}
-
-								{/* {(indexEachSymbol - 1) < indexOfSymbol &&
-									<div className={s.animate}>
-										{symbol}
-									</div>}
-								{(indexEachSymbol - 1) === indexOfSymbol &&
-									<div className={s.animate}>
-										{(currentSymbol)}
-									</div>
-								} */}
-
-								{/* animation symbols */}
-
-
 
 							</div>)
 					})
@@ -195,20 +196,7 @@ const Sentence = () => {
 				</span>
 					<div id={"id" + (indexEachSymbol++)} className={s.symbol}> </div>
 				</span>)
-			// } else {
-			// 	return (
-			// 		<span key={index} >
-			// 			<span>{
-			// 				word.split("").map((symbol) => {
-			// 					return (<div id={indexEachSymbol++} className={s.symbol}>
-			// 						{symbol}
-			// 					</div>)
-			// 				})
-			// 			}
-			// 			</span>
-			// 			<div id={indexEachSymbol++} className={s.symbol}> </div>
-			// 		</span>)
-			// }
+
 
 		})
 		setTypingFullText(hightLightsWord)
@@ -226,7 +214,8 @@ const Sentence = () => {
 
 			allTextSymbolsScores.push([currentSymbol, Date.now()])
 			// console.log(allTextSymbolsScores)
-			result()
+
+
 
 			checkFinish()
 		}
@@ -269,14 +258,7 @@ const Sentence = () => {
 		setTypeMe(e.target.value)
 		setCurrentSymbol(e.nativeEvent.data)
 
-		stack = stack + e.nativeEvent.data
 
-
-		if (typingTextTmp.startsWith(stack)) {
-			console.count(stack, "yes")
-		} else {
-			console.count(stack, "no")
-		}
 
 
 	}
@@ -290,8 +272,9 @@ const Sentence = () => {
 	return (
 		<div className={s.sentense}>
 
-			<MyItem isVisible={isVisible} arr={arr} />
+			{/* <MyItem isVisible={isVisible} arr={arr} /> */}
 
+			<div>Scores: {finishTime && (Math.ceil((typingText.length / ((finishTime - typingStart) / 1000)) * 60))}</div>
 			<StopWatch typingStart={typingStart} finish={finish} />
 			<h1 className={s.typingText}>{typingFullText}</h1>
 			<div className={s.inputWrapper}><input disabled={finish} className={s.inputTyping} style={errorTyping ? { color: "red" } : { color: "blue" }} type="text" onChange={startType} placeholder="" value={typeMe} /></div>

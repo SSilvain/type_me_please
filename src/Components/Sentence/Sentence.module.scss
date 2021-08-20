@@ -11,14 +11,12 @@
 }
 .active {
     color: blue;
-    margin-right: 5px;
     background-color: rgba(255, 155, 255, 0.2);
 }
 
 .error {
     color: red;
 
-    margin-right: 5px;
     background-color: rgba(255, 55, 55, 0.3);
 }
 
@@ -48,6 +46,11 @@
 .resultSec {
     font-size: 12px;
     font-weight: bold;
+}
+
+.symbols{
+    
+    margin-right: 5px;
 }
 
 .symbol {
