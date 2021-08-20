@@ -1,0 +1,16 @@
+
+.resultBlock {
+    display: flex;
+    width: 160px;
+    border-bottom: 1px solid #ccc;
+    padding: 5px 10px;
+}
+.result {
+    display: inline-flex;
+    width: 80px;
+    letter-spacing: 5px;
+}
+.resultSec {
+    font-size: 12px;
+    font-weight: bold;
+}

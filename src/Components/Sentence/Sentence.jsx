@@ -57,13 +57,13 @@ const MyItem = ({ arr, isVisible }) => {
 
 const typingText = "The two babies were already whimpering for food, but became silent when Moon-Watcher snarled at them. One of the mothers, defending the infant she could not properly feed, gave him an angry growl in return; he lacked the energy even to cuff her for her presumption."
 
-let typingTextTmp = typingText
+// let typingTextTmp = typingText
 // let allTextSymbols = typingText.split("")
 // console.log(allTextSymbols)
 let allTextSymbolsScores = []
 // let currentSymbols = []
 let tmpWord = ""
-let mapResult = new Map()
+
 let stack = ""
 
 
@@ -87,62 +87,13 @@ const Sentence = () => {
 	}, 1000)
 
 
-// vanilla js insert element for animate
-	useLayoutEffect(() => {
-		if (!startCount && currentSymbol !== null) {
-			let elementDiv = document.createElement("div")
-			elementDiv.setAttribute("class", "animate")
-			const newContent = document.createTextNode(currentSymbol);
 
-			// add the text node to the newly created div
-			elementDiv.appendChild(newContent);
-
-			// add the newly created element and its content into the DOM
-			const currentDiv = document.getElementById("id" + indexOfSymbol);
-			currentDiv.append(elementDiv);
-		}
-		// setArr([...arr, currentSymbol])
-	}, [typeMe])
 
 
 	let [isVisible, setIsVisible] = useState(true)
 	setTimeout(() => { setIsVisible(false) }, 1000)
 
-	const result = () => {
 
-		if (allTextSymbolsScores.length !== 0) {
-			allTextSymbolsScores.reduce((prev, current) => {
-				if (current[0] === " ") {
-					current[0] = "⇒"
-				}
-				let pair = prev[0] + current[0]
-				let pairTime = current[1] - prev[1]
-				if (prev) {
-					if (mapResult.has(pair)) {
-						let pairTimeSum = Math.ceil((mapResult.get(pair) + pairTime) / 2)
-						mapResult.set(pair, (pairTimeSum))
-					} else {
-						mapResult.set(pair, (pairTime))
-					}
-				}
-				return current
-			})
-		}
-		const mapSort2 = new Map([...mapResult.entries()].sort((a, b) => b[1] - a[1]));
-		let resultArrayTmp = []
-		for (let [key, value] of mapSort2) {
-			resultArrayTmp.push([key, value])
-		}
-		setResultArray([...resultArrayTmp])
-
-	}
-	// execute result
-	useEffect(() => {
-		if (finish) {
-			result()
-			setfinishTime(Date.now())
-		}
-	}, [finish])
 
 
 
@@ -156,107 +107,56 @@ const Sentence = () => {
 	}
 
 
-	// finish
-	useEffect(() => {
+	// // finish
+	// useEffect(() => {
 
-		setTypeMe("")
-	}, [finish])
+	// 	setTypeMe("")
+	// }, [finish])
 
 
 
 
 	// typingText and highlightCurrentWord 
-	useEffect(() => {
+	// useEffect(() => {
 
-		let typingTextWords = typingText.split(" ")
+	// 	let typingTextWords = typingText.split(" ")
 
-		let indexEachSymbol = 0
+	// 	let indexEachSymbol = 0
 
-		let hightLightsWord = typingTextWords.map((word, index) => {
+	// 	let hightLightsWord = typingTextWords.map((word, index) => {
 
+	// 		return (
+	// 			<span key={index} className={index === indexOfWord ? `${s.active} ${s.symbols}` : `${s.symbols}`}> <span >
+	// 				{word.split("").map((symbol) => {
+	// 					return (
+	// 						<div
+	// 							id={"id" + (indexEachSymbol++)}
+	// 							className={errorTyping ? `${s.error} ${s.symbol}` : `${s.symbol}`}
+	// 						>
+	// 							{symbol}
 
-			return (
-				<span key={index} className={index === indexOfWord ? `${s.active} ${s.symbols}` : `${s.symbols}`}> <span >
-					{word.split("").map((symbol) => {
-						return (
-							<div
-								id={"id" + (indexEachSymbol++)}
-								className={errorTyping ? `${s.error} ${s.symbol}` : `${s.symbol}`}
-							>
-								{symbol}
+	// 						</div>)
+	// 				})
+	// 				}
+	// 			</span>
+	// 				<div id={"id" + (indexEachSymbol++)} className={s.symbol}> </div>
+	// 			</span>)
 
-							</div>)
-					})
-					}
-				</span>
-					<div id={"id" + (indexEachSymbol++)} className={s.symbol}> </div>
-				</span>)
+	// 	})
+	// 	setTypingFullText(hightLightsWord)
 
-
-		})
-		setTypingFullText(hightLightsWord)
-
-	}, [typeMe, errorTyping])
+	// }, [typeMe, errorTyping])
 
 
 
 
 
 
-	const baseFunc = () => {
-		if (tmpWord.length < typeMe.length) {
-			tmpWord = typeMe
 
-			allTextSymbolsScores.push([currentSymbol, Date.now()])
-			// console.log(allTextSymbolsScores)
-
-
-
-			checkFinish()
-		}
-	}
-
-	const checkFinish = () => {
-		if (typingText.length - 1 === indexOfSymbol) {
-			setFinish(true)
-		} else {
-			setIndexOfSymbol(indexOfSymbol + 1)
-			// console.log(indexOfSymbol)
-		}
-	}
-
-	// check entered text
-	useEffect(() => {
-		if (typingTextTmp.startsWith(typeMe) && typeMe !== "") {
-			baseFunc()
-			if (currentSymbol === " ") {
-				typingTextTmp = typingTextTmp.slice(typeMe.length)
-				setTypeMe("")
-				tmpWord = ""
-				setIndexOfWord(indexOfWord + 1)
-			}
-			setErrorTyping(false)
-		} else if (typeMe === "") {
-			setErrorTyping(false)
-		} else {
-			setErrorTyping(true)
-		}
-	}, [typeMe])
 
 
 	// starting type
-	const startType = (e) => {
-		if (startCount) {
-			setTypingStart(Date.now())
-			setStartCount(false)
-		}
-		setTypeMe(e.target.value)
-		setCurrentSymbol(e.nativeEvent.data)
 
-
-
-
-	}
 
 
 
@@ -272,17 +172,18 @@ const Sentence = () => {
 			<div>Scores: {finishTime && (Math.ceil((typingText.length / ((finishTime - typingStart) / 1000)) * 60))}</div>
 			<StopWatch typingStart={typingStart} finish={finish} />
 			<h1 className={s.typingText}>
-				
-				
-				
-				{typingFullText}
-				
-				
-				
-			</h1>
-			<div className={s.inputWrapper}><input disabled={finish} className={s.inputTyping} style={errorTyping ? { color: "red" } : { color: "blue" }} type="text" onChange={startType} placeholder="" value={typeMe} /></div>
 
-			<div>{resultArray.map((res, index) => <div className={s.resultBlock} key={index}><span className={s.result}>{res[0]}</span> <span className="result">{`${res[1] / 1000}`} <i className={s.resultSec}>s</i></span></div>)}</div>
+
+
+				{/* {typingFullText} */}
+
+
+
+
+			</h1>
+
+
+		
 		</div>
 
 
