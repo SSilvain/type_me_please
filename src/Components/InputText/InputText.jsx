@@ -37,23 +37,23 @@ const InputText = () => {
 	
 	
 	
-	// vanilla js insert element for animate
-	useEffect(() => {
-		if (!isStartCountInput && currentSymbol !== null) {
-			console.count("type")
-			let elementDiv = document.createElement("div")
-			elementDiv.setAttribute("class", "animate")
-			const newContent = document.createTextNode(currentSymbolInput);
+	// // vanilla js insert element for animate
+	// useEffect(() => {
+	// 	if (!isStartCountInput && currentSymbolInput !== null) {
+	// 		console.count("type")
+	// 		let elementDiv = document.createElement("div")
+	// 		elementDiv.setAttribute("class", "animate")
+	// 		const newContent = document.createTextNode(currentSymbolInput);
 
-			// add the text node to the newly created div
-			elementDiv.appendChild(newContent);
+	// 		// add the text node to the newly created div
+	// 		elementDiv.appendChild(newContent);
 
-			// add the newly created element and its content into the DOM
-			const currentDiv = document.getElementById("id" + indexOfSymbolInput);
-			currentDiv.append(elementDiv);
-		}
-		// setArr([...arr, currentSymbol])
-	}, [typeMeInput])
+	// 		// add the newly created element and its content into the DOM
+	// 		const currentDiv = document.getElementById("id" + (indexOfSymbolInput-1));
+	// 		currentDiv.append(elementDiv);
+	// 	}
+	// 	// setArr([...arr, currentSymbol])
+	// }, [typeMeInput])
 	
 	
 

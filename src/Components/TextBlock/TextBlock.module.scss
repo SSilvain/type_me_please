@@ -1,3 +1,15 @@
+.sentense {
+    width: 800px;
+    margin: 0 auto;
+    font-family: "Courier Prime", monospace;
+}
+.typingText {
+    font-size: 24px;
+    display: flex;
+    width: 100%;
+    justify-content: start;
+    flex-wrap: wrap;
+}
 .active {
     color: blue;
     background-color: rgba(255, 155, 255, 0.2);
@@ -8,16 +20,85 @@
 
     background-color: rgba(255, 55, 55, 0.3);
 }
-.symbol {
+.symbols {
+    // margin-right: 15px;
+    display: flex;
+    background-color: #eee;
+}
+
+.symbolWrapper {
+    display: inline-block;
     position: relative;
-    display: inline;
-    div {
-        position: absolute;
+    // height: 10px;
+}
+.symbol {
+    top: 0;
+    left: 0;
+    position: relative;
+}
+.symbolAbsolute {
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.transparent {
+    top: 0;
+    left: 0;
+    position: relative;
+    opacity: 0.2;
+}
+
+/* The element to apply the animation to */
+.animate {
+    top: 0;
+    left: 0;
+    position: absolute;
+    animation-name: example;
+    animation-duration: 2s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-fill-mode: forwards;
+}
+@keyframes example {
+    from {
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
-        // font-size: 15px;
-        display: inline;
+        opacity: 1;
+    }
+
+    to {
+        top: -170px;
+        left: -30px;
+        opacity: 0;
+    }
+}
+
+//++++++++++++++++++++++++++++++++++++++++++++==
+
+.elementAnimation {
+    top: 0;
+    left: 0;
+    position: absolute;
+    animation: animationFrames linear 4s;
+    animation-iteration-count: 1;
+    transform-origin: 50% 50%;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animationFrames {
+    
+  0%{
+    transform: translateY(0);
+  }
+  1%{
+    transform: translateY(8px);
+  }
+  2%{
+      transform: translateY(-8px);
+  }
+    100% {
+        transform: translate(-137px, -296px) rotate(180deg);
+        // opacity: 0;
     }
 }

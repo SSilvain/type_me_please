@@ -11,7 +11,10 @@ export const slice = createSlice({
             state.resultArray = action.payload;
         },
 		setfinishTime: (state, action) => {
-			state.finishTime = (action.payload.finishTimeStamp - action.payload.startResult) / 1000;
+			state.finishTime =
+                Math.ceil(action.payload.textForTypingResultLength /((
+                    action.payload.finishTimeStamp - action.payload.startResult
+                ) / 1000) * 60);
 		}
     },
 });

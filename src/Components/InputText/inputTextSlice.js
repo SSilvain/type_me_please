@@ -49,6 +49,8 @@ export const slice = createSlice({
                     // checkFinish();
 
                     if (state.textForTypingLength - 1 === state.indexOfSymbol) {
+                        
+                        state.indexOfSymbol = state.indexOfSymbol + 1; // for animate last symbol
                         state.finish = true;
                         state.typeMe = "";
                     } else {

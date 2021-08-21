@@ -3,6 +3,7 @@ import { allTextSymbolsScores, finish, typingStart } from "../InputText/inputTex
 import { setResultArray, resultArray, setfinishTime, finishTime } from "./resultBlockSlice"
 import s from "./ResultBlock.module.scss"
 import { useEffect } from "react"
+import { textForTyping } from "../TextBlock/textBlockSlice"
 
 let mapResult = new Map()
 
@@ -14,6 +15,7 @@ const ResultBlock = () => {
 	const isFinish = useSelector(finish)
 	const startResult = useSelector(typingStart)
 	const finishTimeResult = useSelector(finishTime)
+	const textForTypingResult = useSelector(textForTyping)
 
 
 	const allTextSymbolsScoresResult = useSelector(allTextSymbolsScores)
@@ -54,7 +56,13 @@ const ResultBlock = () => {
 
 	useEffect(() => {
 		if (isFinish) {
-			dispatch(setfinishTime({startResult , finishTimeStamp: (Date.now())}))
+			dispatch(setfinishTime(
+				{
+					startResult,
+					finishTimeStamp: (Date.now()),
+					textForTypingResultLength: textForTypingResult.length
+				}
+			))
 			result()
 		}
 	}, [isFinish])
