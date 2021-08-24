@@ -40,16 +40,30 @@ const TextBlockAnimate = () => {
 						`${s.symbols}`}> <span >
 						{word.split("").map((symbol) => {
 							return (
-								<div id={"idAnimation" + (indexEachSymbol++)} key={"idAnimationSymbol" + (indexEachSymbol)} className={s.symbolWrapper}>
-									{/*(indexEachSymbol) > indexOfSymbolTextBlock*/ true && <div
-										// className={errorTypingTextBlock ? `${s.error} ${s.symbol}` : `${s.symbol}`}
-										className={indexOfSymbolTextBlock >= (indexEachSymbol) ? `${s.elementAnimation}` : `${s.symbolAbsolute}`}
-									>
-										{symbol}
+								<div id={"idAnimation" + (indexEachSymbol++)} key={"idAnimationSymbol" + indexEachSymbol} className={s.symbolWrapper}>
+									{/* animate typing symbol */
+										indexEachSymbol > indexOfSymbolTextBlock /*true*/ && <div
+											// className={errorTypingTextBlock ? `${s.error} ${s.symbol}` : `${s.symbol}`}
+											className={indexOfSymbolTextBlock >= (indexEachSymbol) ? `${s.elementAnimation}` : `${s.symbolAbsolute}`}
+										>
+											{symbol}
 
-									</div>}
+										</div>}
+
+									{/*  render text */}
 									<div
-										className={indexOfSymbolTextBlock >= (indexEachSymbol) ? `${s.transparent}` : `${s.symbol}`}
+										className={
+											indexOfSymbolTextBlock >= (indexEachSymbol)
+												?
+												`${s.transparent}`
+												:
+												!(indexOfSymbolTextBlock >= (indexEachSymbol)) && !errorTypingTextBlock
+													?
+													`${s.symbol}`
+													:
+													`${s.symbol} ${s.error}`
+
+										}
 									>
 										{symbol}
 
