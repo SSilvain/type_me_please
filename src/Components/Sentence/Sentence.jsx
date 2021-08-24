@@ -170,7 +170,7 @@ const Sentence = () => {
 			{/* <MyItem isVisible={isVisible} arr={arr} /> */}
 
 			<div>Scores: {finishTime && (Math.ceil((typingText.length / ((finishTime - typingStart) / 1000)) * 60))}</div>
-			<StopWatch typingStart={typingStart} finish={finish} />
+			
 			<h1 className={s.typingText}>
 
 

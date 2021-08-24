@@ -40,7 +40,7 @@ const TextBlockAnimate = () => {
 						`${s.symbols}`}> <span >
 						{word.split("").map((symbol) => {
 							return (
-								<div id={"idAnimation" + (indexEachSymbol++)} className={s.symbolWrapper}>
+								<div id={"idAnimation" + (indexEachSymbol++)} key={"idAnimationSymbol" + (indexEachSymbol)} className={s.symbolWrapper}>
 									{/*(indexEachSymbol) > indexOfSymbolTextBlock*/ true && <div
 										// className={errorTypingTextBlock ? `${s.error} ${s.symbol}` : `${s.symbol}`}
 										className={indexOfSymbolTextBlock >= (indexEachSymbol) ? `${s.elementAnimation}` : `${s.symbolAbsolute}`}
