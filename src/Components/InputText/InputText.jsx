@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { startCount, setTypeMe, setCurrentSymbol, setTextForChecking, checkEnteredText, finish, errorTyping, typeMe, isStartCount, currentSymbol, indexOfSymbol } from "./inputTextSlice"
 import { textForTyping } from "../TextBlock/textBlockSlice"
-import { useEffect } from "react"
+// import { useEffect } from "react"
 
 const InputText = () => {
 
@@ -62,7 +62,7 @@ const InputText = () => {
 			<input
 				disabled={finishInput}
 				className={s.inputTyping}
-				style={errorTypingInput ? { color: "red" } : { color: "blue" }}
+				style={errorTypingInput ? { color: "#d70000" } : { color: "#445de8" }}
 				type="text"
 				onChange={startTypeInput}
 				placeholder=""
