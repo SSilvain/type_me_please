@@ -59,6 +59,8 @@ export const slice = createSlice({
                 }
 
                 if (state.currentSymbol === " ") {
+                    
+                        state.indexOfSymbol = state.indexOfSymbol - 1;
                     state.textForChecking = state.textForChecking.slice(
                         state.typeMe.length
                     );

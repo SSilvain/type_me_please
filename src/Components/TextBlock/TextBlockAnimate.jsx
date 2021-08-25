@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
 	isAnimate,
@@ -6,6 +6,34 @@ import {
 } from './textBlockSlice';
 import s from "./TextBlock.module.scss"
 import { errorTyping, finish, indexOfSymbol, indexOfWord, isStartCount } from '../InputText/inputTextSlice';
+import { useState } from 'react';
+
+function AppTest() {
+	const inputEl = useRef([]);
+	const arrTest = ["q", "w", "r", "a", "s", "f"]
+	function handleChange(i) {
+		inputEl.current[1].className = "animation"
+
+	}
+	useEffect(() => { handleChange(2) }, [])
+
+	return (
+		<div>
+			{
+				arrTest.map((n, i) => (
+					<div
+						key={i}
+						type="text"
+						ref={ref => inputEl.current.push(ref)}
+						// onClick={() => handleChange(i)}
+						style={{ position: 'relative', left: "100px" }}
+					>{n}</div>
+				))
+			}
+		</div>
+	)
+}
+
 
 const TextBlockAnimate = () => {
 
@@ -22,79 +50,64 @@ const TextBlockAnimate = () => {
 	useEffect(() => {
 		dispatch(splitByWords())
 	}, [])
-	
+
 	useEffect(() => {
 		if (!isAnimateTextBlock) {
 			dispatch(setIndexToggleAnimate(indexOfSymbolTextBlock))
 		}
 	}, [indexOfSymbolTextBlock])
-	
-	
-	
-	
+
+
+
+	const arraySymbolsRef = useRef([]);
+
+	function arraySymbolAnimate(i) {
+		arraySymbolsRef.current[i].className = s.elementAnimation
+	}
+
+	// useEffect(() => {
+	// 	if (startCountTextBlock) {
+	// 		arraySymbolAnimate(indexOfSymbolTextBlock - 1)
+	// 	}
+	// }, [indexOfSymbolTextBlock])
+
+
 
 
 	let indexEachSymbol = 0
 
+	const [renderText, setRenderText] = useState([])
+	useEffect(() => {
+		const renderTextTmp = typingTextWords.map((word, index) => <span key={"index" + index} className={s.symbols}>
+			{word.split("").map((symbol) => {
+				return (
+					<div key={"idAnimationSymbol" + (indexEachSymbol++)} className={s.symbolWrapper}>
+						<div
+							id={`id${indexEachSymbol}`}
+							// ref={ref => arraySymbolsRef.current.push(ref)}
+							className={s.symbolAbsolute}>
+							{symbol}
+						</div>
+						<div className={s.transparent}>
+							{symbol}
+						</div>
+					</div>)
+			}
+			)
+			}
+			&nbsp;
+		</span>)
+		setRenderText(renderTextTmp)
+	}, [isAnimateTextBlock])
+
+
+
+
 	return (
 		<div className={s.sentense}>
-			
+
 			<h1 className={s.typingText}>
-				{typingTextWords.map((word, index) => <span key={index} className={index === indexOfWordTextBlock && errorTypingTextBlock && !finishTextBlock
-					?
-					`${s.error} ${s.symbols}`
-					: index === indexOfWordTextBlock && !finishTextBlock
-						?
-						`${s.active} ${s.symbols}`
-						:
-						`${s.symbols}`}> <span >
-						{word.split("").map((symbol) => {
-							return (
-								<div id={"idAnimation" + (indexEachSymbol++)} key={"idAnimationSymbol" + indexEachSymbol} className={s.symbolWrapper}>
-									{/* animate typing symbol */
-										indexEachSymbol > indexToggleAnimateTextBlock
-										&&
-										indexEachSymbol <= indexOfSymbolTextBlock
-										&&
-										isAnimateTextBlock
-										&& <div
-											// className={errorTypingTextBlock ? `${s.error} ${s.symbol}` : `${s.symbol}`}
-											className={indexEachSymbol <= indexOfSymbolTextBlock
-												?
-												`${s.elementAnimation}`
-												:
-												`${s.symbolAbsolute}`}
-										>
-											{symbol}
-
-										</div>}
-
-									{/*  render text */}
-									{/*indexEachSymbol >= indexOfSymbolTextBlock */ true && <div
-										className={
-											indexOfSymbolTextBlock >= (indexEachSymbol)
-												?
-												`${s.transparent}`
-												:
-												!(indexOfSymbolTextBlock >= (indexEachSymbol)) && !errorTypingTextBlock
-													?
-													`${s.symbol}`
-													:
-													`${s.symbol} ${s.error}`
-
-										}
-									>
-										{symbol}
-
-									</div>}
-								</div>)
-						})
-						}
-
-					</span>
-					<div id={"id" + (indexEachSymbol++)} className={`${s.symbol} ${s.transparent}`}>&nbsp;</div>
-				</span>
-				)}
+				{renderText}
 			</h1>
 		</div>
 	)
