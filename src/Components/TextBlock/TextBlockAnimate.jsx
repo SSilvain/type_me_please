@@ -1,34 +1,44 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-	splitByWords, words,
+	isAnimate,
+	splitByWords, words, setIsAnimate
 } from './textBlockSlice';
 import s from "./TextBlock.module.scss"
 import { errorTyping, finish, indexOfSymbol, indexOfWord } from '../InputText/inputTextSlice';
+import Switch from '@material-ui/core/Switch';
 
 const TextBlockAnimate = () => {
 
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-
-
 		dispatch(splitByWords())
 	}, [])
 	// currentTextForTyping and highlightCurrentWord 
 	// useEffect(() => {
+	const setIsAnimateTextBlock = () => {
+		dispatch(setIsAnimate())
+	}
 
-
-	let typingTextWords = useSelector(words)
+	const typingTextWords = useSelector(words)
 	const indexOfWordTextBlock = useSelector(indexOfWord)
 	const errorTypingTextBlock = useSelector(errorTyping)
 	const indexOfSymbolTextBlock = useSelector(indexOfSymbol)
 	const finishTextBlock = useSelector(finish)
+	const isAnimateTextBlock = useSelector(isAnimate)
 
 	let indexEachSymbol = 0
 
 	return (
 		<div className={s.sentense}>
+			<Switch
+				checked={isAnimateTextBlock}
+				onChange={setIsAnimateTextBlock}
+				color="primary"
+				name="checkedB"
+				inputProps={{ 'aria-label': 'primary checkbox' }}
+			/>
 			<h1 className={s.typingText}>
 				{typingTextWords.map((word, index) => <span key={index} className={index === indexOfWordTextBlock && errorTypingTextBlock && !finishTextBlock
 					?
@@ -42,7 +52,7 @@ const TextBlockAnimate = () => {
 							return (
 								<div id={"idAnimation" + (indexEachSymbol++)} key={"idAnimationSymbol" + indexEachSymbol} className={s.symbolWrapper}>
 									{/* animate typing symbol */
-										indexEachSymbol > indexOfSymbolTextBlock /*true*/ && <div
+										isAnimateTextBlock && <div
 											// className={errorTypingTextBlock ? `${s.error} ${s.symbol}` : `${s.symbol}`}
 											className={indexOfSymbolTextBlock >= (indexEachSymbol) ? `${s.elementAnimation}` : `${s.symbolAbsolute}`}
 										>
