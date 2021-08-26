@@ -65,11 +65,11 @@ const TextBlockAnimate = () => {
 		arraySymbolsRef.current[i].className = s.elementAnimation
 	}
 
-	// useEffect(() => {
-	// 	if (startCountTextBlock) {
-	// 		arraySymbolAnimate(indexOfSymbolTextBlock - 1)
-	// 	}
-	// }, [indexOfSymbolTextBlock])
+	useEffect(() => {
+		if (startCountTextBlock) {
+			arraySymbolAnimate(indexOfSymbolTextBlock - 1)
+		}
+	}, [indexOfSymbolTextBlock])
 
 
 
@@ -77,6 +77,7 @@ const TextBlockAnimate = () => {
 	let indexEachSymbol = 0
 
 	const [renderText, setRenderText] = useState([])
+	
 	useEffect(() => {
 		const renderTextTmp = typingTextWords.map((word, index) => <span key={"index" + index} className={s.symbols}>
 			{word.split("").map((symbol) => {
@@ -84,7 +85,7 @@ const TextBlockAnimate = () => {
 					<div key={"idAnimationSymbol" + (indexEachSymbol++)} className={s.symbolWrapper}>
 						<div
 							id={`id${indexEachSymbol}`}
-							// ref={ref => arraySymbolsRef.current.push(ref)}
+							ref={ref => arraySymbolsRef.current.push(ref)}
 							className={s.symbolAbsolute}>
 							{symbol}
 						</div>

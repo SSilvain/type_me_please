@@ -92,7 +92,8 @@
     top: 0;
     left: 0;
     position: absolute;
-    animation: animationFrames ease-in 4s;
+    // animation: animationFrames ease-in 4s;
+    color: yellow;
     animation-iteration-count: 1;
     transform-origin: 50% 50%;
     animation-fill-mode: forwards;

@@ -9,7 +9,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Switch from '@material-ui/core/Switch'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-	isAnimate,setIsAnimate
+	isAnimate, setIsAnimate
 } from './Components/TextBlock/textBlockSlice'
 import { useEffect } from 'react'
 
@@ -30,15 +30,16 @@ function App() {
 		dispatch(setIsAnimate())
 	}
 	
-	useEffect(() => {
-		if (isAnimateApp && !startCountApp) {
+	// animation by vanilla js	
+	// useEffect(() => {
+	// 	if (isAnimateApp && !startCountApp) {
 
-			let tmpSymbol = document.getElementById(`id${indexOfSymbolApp-1}`)
+	// 		let tmpSymbol = document.getElementById(`id${indexOfSymbolApp-1}`)
 
-			tmpSymbol.classList.add("elementAnimation")
-		}
-	}, [typeMeApp])
-	
+	// 		tmpSymbol.classList.add("elementAnimation")
+	// 	}
+	// }, [typeMeApp])
+
 	return (
 		<div>
 			<h1>Type me, please!</h1>
@@ -52,8 +53,8 @@ function App() {
 			{/* <TextBlock /> */}
 			<InputText />
 			<StopWatch typingStart={typingStartApp} finish={finishApp} />
-			<TextBlockAnimate/>
-			<Resultblock/>
+			<TextBlockAnimate />
+			<Resultblock />
 
 		</div >
 	)
