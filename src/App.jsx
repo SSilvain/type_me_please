@@ -12,6 +12,7 @@ import {
 	isAnimate, setIsAnimate
 } from './Components/TextBlock/textBlockSlice'
 import TestCanvas from './Components/TestCanvas/TestCanvas'
+import Circle from './Components/Circle/Circle'
 
 
 
@@ -31,6 +32,7 @@ function App() {
 		<div>
 			<h1>Type me, please!</h1>
 			<TestCanvas/>
+			{/* <Circle/> */}
 			<FormControlLabel
 				control={<Switch checked={isAnimateApp} onChange={setIsAnimateTextBlock}
 					// disabled={startCountTextBlock}
