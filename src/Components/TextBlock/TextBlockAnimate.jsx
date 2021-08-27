@@ -8,33 +8,6 @@ import s from "./TextBlock.module.scss"
 import { errorTyping, finish, indexOfSymbol, indexOfWord, isStartCount } from '../InputText/inputTextSlice';
 import { useState } from 'react';
 
-function AppTest() {
-	const inputEl = useRef([]);
-	const arrTest = ["q", "w", "r", "a", "s", "f"]
-	function handleChange(i) {
-		inputEl.current[1].className = "animation"
-
-	}
-	useEffect(() => { handleChange(2) }, [])
-
-	return (
-		<div>
-			{
-				arrTest.map((n, i) => (
-					<div
-						key={i}
-						type="text"
-						ref={ref => inputEl.current.push(ref)}
-						// onClick={() => handleChange(i)}
-						style={{ position: 'relative', left: "100px" }}
-					>{n}</div>
-				))
-			}
-		</div>
-	)
-}
-
-
 const TextBlockAnimate = () => {
 
 	const typingTextWords = useSelector(words)
@@ -59,12 +32,27 @@ const TextBlockAnimate = () => {
 
 
 
+	const arrayWordsRef = useRef([]);
 	const arraySymbolsRef = useRef([]);
+	
+	const coloringWord = (i) => {
+		if (errorTypingTextBlock) {
 
-	function arraySymbolAnimate(i) {
+			arrayWordsRef.current[i].className = s.errorActive
+		}else{
+		arrayWordsRef.current[i - 1].className = s.symbols
+		arrayWordsRef.current[i].className = s.active}
+	}
+	const arraySymbolAnimate = (i) => {
 		arraySymbolsRef.current[i].className = s.elementAnimation
 	}
 
+	useEffect(() => {
+		if (startCountTextBlock) {
+			coloringWord(indexOfWordTextBlock)
+		}
+	}, [indexOfWordTextBlock, errorTypingTextBlock])
+	
 	useEffect(() => {
 		if (startCountTextBlock) {
 			arraySymbolAnimate(indexOfSymbolTextBlock - 1)
@@ -74,31 +62,35 @@ const TextBlockAnimate = () => {
 
 
 
-	let indexEachSymbol = 0
 
 	const [renderText, setRenderText] = useState([])
-	
+
 	useEffect(() => {
-		const renderTextTmp = typingTextWords.map((word, index) => <span key={"index" + index} className={s.symbols}>
-			{word.split("").map((symbol) => {
-				return (
-					<div key={"idAnimationSymbol" + (indexEachSymbol++)} className={s.symbolWrapper}>
-						<div
-							id={`id${indexEachSymbol}`}
-							ref={ref => arraySymbolsRef.current.push(ref)}
-							className={s.symbolAbsolute}>
-							{symbol}
-						</div>
-						<div className={s.transparent}>
-							{symbol}
-						</div>
-					</div>)
-			}
-			)
-			}
-			&nbsp;
-		</span>)
-		setRenderText(renderTextTmp)
+		if (isAnimateTextBlock) {
+			let indexEachSymbol = 0
+			const renderTextTmp = typingTextWords.map((word, index) => <div
+				ref={ref => arrayWordsRef.current.push(ref)}
+				key={"index" + index}
+				className={s.symbols}
+			>
+				{word.split("").map((symbol) => {
+					return (
+						<div key={"idAnimationSymbol" + (indexEachSymbol++)} className={s.symbolWrapper}>
+							<div
+								id={`id${indexEachSymbol}`}
+								ref={ref => arraySymbolsRef.current.push(ref)}
+								className={s.symbolAbsolute}>
+								{symbol}
+							</div>
+							<div className={s.transparent}>
+								{symbol}
+							</div>
+						</div>)
+				})}
+				&nbsp;
+			</div>)
+			setRenderText(renderTextTmp)
+		}
 	}, [isAnimateTextBlock])
 
 

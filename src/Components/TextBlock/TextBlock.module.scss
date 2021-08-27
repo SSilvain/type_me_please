@@ -18,7 +18,14 @@
 .active {
     color: #445de8;
     background-color: rgba(#3f51b5, 0.1);
+    display: flex;
+    border-radius: 5px;
 }
+.noActive{
+    color: #445de8;
+    background-color: rgba(#3f51b5, 0.1);
+    display: flex;
+    border-radius: 5px;}
 
 .error {
     color: #d70000;
@@ -30,6 +37,8 @@
     color: #d70000;
 
     background-color: rgba(#d70000, 0.2);
+    display: flex;
+    border-radius: 5px;
 }
 .symbols {
     // margin-right: 15px;
@@ -93,7 +102,8 @@
     left: 0;
     position: absolute;
     // animation: animationFrames ease-in 4s;
-    color: yellow;
+    // color: #bcc6ff;
+    opacity: .2;
     animation-iteration-count: 1;
     transform-origin: 50% 50%;
     animation-fill-mode: forwards;
