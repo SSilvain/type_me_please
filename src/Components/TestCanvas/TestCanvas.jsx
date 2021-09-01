@@ -19,7 +19,7 @@ const getPixelRatio = context => {
 };
 
 
-const TestCanvas = () => {
+const TestCanvas = (props) => {
 	let ref = useRef()
 	
 	const typeMeCanvas = useSelector(typeMe)
@@ -114,8 +114,8 @@ const TestCanvas = () => {
 		const render = () => {
 			context.clearRect(0, 0, canvas.width, canvas.height);
 
-			var y = 0;
-			var x = 10;
+			var y = props.y + 25;
+			var x = props.x;
 			
 			
 			
@@ -140,7 +140,7 @@ const TestCanvas = () => {
 			}
 			
 
-			console.count("fill")
+			// console.count("fill")
 			
 			// +++++++++++++++++++++++++++++++++
 			
@@ -149,7 +149,7 @@ const TestCanvas = () => {
 			
 			
 			yAnimate += 1;
-			requestId = requestAnimationFrame(render);
+			// requestId = requestAnimationFrame(render);
 		};
 		render();
 
@@ -165,7 +165,12 @@ const TestCanvas = () => {
 		<div style={{display: "flex", justifyContent: "center"}}>
 			{/* <h2>Canvas</h2> */}
 
-			<canvas ref={ref} style={{ width: "500px", heigth: "300px", border: "1px solid #000"}}></canvas>
+			<canvas ref={ref} style={{
+				width: "500px", heigth: "300px", border: "1px solid #000",
+				position: "absolute",
+				top: 0,
+				left: 0
+			}}></canvas>
 
 		</div>
 	)

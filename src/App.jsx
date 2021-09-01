@@ -31,8 +31,8 @@ function App() {
 	return (
 		<div>
 			<h1>Type me, please!</h1>
-			<TestCanvas/>
-			{/* <Circle/> */}
+			{/* <TestCanvas x={10} y={10}/> */}
+			<Circle/>
 			<FormControlLabel
 				control={<Switch checked={isAnimateApp} onChange={setIsAnimateTextBlock}
 					// disabled={startCountTextBlock}
